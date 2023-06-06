@@ -224,7 +224,12 @@ class TaskOperation{
             this.getAllSelectedBox();
         } else if (row.classList.contains("done")) {
             let taskId = row.parentNode?.parentElement?.firstElementChild?.innerHTML;
-            this.changeStatus(taskId , row as HTMLElement);
+            this.changeStatus(taskId);
+        }else if (row.classList.contains("form-select")) {
+            row.addEventListener("change", () => {
+                let value: string = (e.target as HTMLInputElement).value
+                this.filterTasks(value);
+            });
         }
     }
     
@@ -295,7 +300,7 @@ class TaskOperation{
         }
     }
 
-    static changeStatus = (taskId , row:HTMLElement) => {
+    static changeStatus = (taskId) => {
         let allTasks = JSON.parse(window.localStorage.getItem("tasks") || '[]');
         allTasks.forEach(task => {
             if (task.id == taskId) {
@@ -303,8 +308,24 @@ class TaskOperation{
                 task.stat = "Done"
             }
         });
-
+        
         this.updateTaskId(allTasks);
+    }
+
+    static filterTasks = (val) => {
+        let allTasks = JSON.parse(window.localStorage.getItem("tasks")||"[]");
+        let newTask:any = [];
+        if (val != "all") {
+            val = Number(val);
+            for (const task of allTasks) {
+                if (task.priority == val) {
+                    newTask.push(task);
+                }
+            }
+            this.renderTable(newTask);
+        } else {
+            this.renderTable(allTasks);
+        }
     }
 
 
@@ -321,7 +342,7 @@ addButton.addEventListener("click", () => {
 });
 
 
-// update task
+// trigger task opreation
 document.addEventListener("click", e => {
     TaskOperation.gettaskIdAndTriggerAction(e);
 })

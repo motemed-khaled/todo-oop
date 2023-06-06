@@ -187,7 +187,13 @@ TaskOperation.gettaskIdAndTriggerAction = (e) => {
     }
     else if (row.classList.contains("done")) {
         let taskId = (_k = (_j = (_h = row.parentNode) === null || _h === void 0 ? void 0 : _h.parentElement) === null || _j === void 0 ? void 0 : _j.firstElementChild) === null || _k === void 0 ? void 0 : _k.innerHTML;
-        _a.changeStatus(taskId, row);
+        _a.changeStatus(taskId);
+    }
+    else if (row.classList.contains("form-select")) {
+        row.addEventListener("change", () => {
+            let value = e.target.value;
+            _a.filterTasks(value);
+        });
     }
 };
 TaskOperation.deleteTask = (taskId) => {
@@ -250,7 +256,7 @@ TaskOperation.deleteMultiRow = (value, allTasks) => {
         _a.updateTaskId(allTasks);
     }
 };
-TaskOperation.changeStatus = (taskId, row) => {
+TaskOperation.changeStatus = (taskId) => {
     let allTasks = JSON.parse(window.localStorage.getItem("tasks") || '[]');
     allTasks.forEach(task => {
         if (task.id == taskId) {
@@ -259,6 +265,22 @@ TaskOperation.changeStatus = (taskId, row) => {
         }
     });
     _a.updateTaskId(allTasks);
+};
+TaskOperation.filterTasks = (val) => {
+    let allTasks = JSON.parse(window.localStorage.getItem("tasks") || "[]");
+    let newTask = [];
+    if (val != "all") {
+        val = Number(val);
+        for (const task of allTasks) {
+            if (task.priority == val) {
+                newTask.push(task);
+            }
+        }
+        _a.renderTable(newTask);
+    }
+    else {
+        _a.renderTable(allTasks);
+    }
 };
 let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
 TaskOperation.sortTasks(tasks);
