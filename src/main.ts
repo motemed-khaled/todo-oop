@@ -269,21 +269,28 @@ class TaskOperation{
     static deleteCheck = () => {
         let allCheckBox = document.querySelectorAll('input[type="checkbox"]:checked');
         let allTasks= JSON.parse(window.localStorage.getItem("tasks") || '[]');
-        let newTasks:any[] = [];
-        let allId:any[]= [];
+        let allId:number[]= [];
         allCheckBox.forEach(check => {
             let taskId = Number(check.parentNode?.parentElement?.firstElementChild?.innerHTML);
             allId.push(taskId);
         })
-        for (let i = 0; i < allTasks.length; i++) {
-            if (allTasks[i].id == allId[i]) {
-                console.log(true)
-            } else {
-                newTasks.push(allTasks[i])
+        this.deleteMultiRow(allId, allTasks);
+    }
+
+    static deleteMultiRow = (value:number[] , allTasks) => {
+        for(let i=0 ; i < value.length ; i++)
+    {
+        for(let j = 0 ; j < allTasks.length; j++)
+        {
+            if(value[i] == allTasks[j].id)
+            {
+                allTasks.splice(j,1);
+                break;
             }
         }
-        console.log(newTasks)
-        this.updateTaskId(newTasks);
+        }
+        console.log(allTasks);
+        this.updateTaskId(allTasks);
     }
 
 
@@ -303,6 +310,7 @@ addButton.addEventListener("click", () => {
 document.addEventListener("click", e => {
     TaskOperation.gettaskId(e);
 })
+
 
 
 

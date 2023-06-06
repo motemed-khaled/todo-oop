@@ -224,23 +224,25 @@ TaskOperation.updateTask = (taskId) => {
 TaskOperation.deleteCheck = () => {
     let allCheckBox = document.querySelectorAll('input[type="checkbox"]:checked');
     let allTasks = JSON.parse(window.localStorage.getItem("tasks") || '[]');
-    let newTasks = [];
     let allId = [];
     allCheckBox.forEach(check => {
         var _b, _c, _d;
         let taskId = Number((_d = (_c = (_b = check.parentNode) === null || _b === void 0 ? void 0 : _b.parentElement) === null || _c === void 0 ? void 0 : _c.firstElementChild) === null || _d === void 0 ? void 0 : _d.innerHTML);
         allId.push(taskId);
     });
-    for (let i = 0; i < allTasks.length; i++) {
-        if (allTasks[i].id == allId[i]) {
-            console.log(true);
-        }
-        else {
-            newTasks.push(allTasks[i]);
+    _a.deleteMultiRow(allId, allTasks);
+};
+TaskOperation.deleteMultiRow = (value, allTasks) => {
+    for (let i = 0; i < value.length; i++) {
+        for (let j = 0; j < allTasks.length; j++) {
+            if (value[i] == allTasks[j].id) {
+                allTasks.splice(j, 1);
+                break;
+            }
         }
     }
-    console.log(newTasks);
-    _a.updateTaskId(newTasks);
+    console.log(allTasks);
+    _a.updateTaskId(allTasks);
 };
 let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
 TaskOperation.sortTasks(tasks);
