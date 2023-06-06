@@ -1,0 +1,152 @@
+/* start variable */
+:root{
+    --main-transtion:0.4s;
+    --x-padding:50px;
+    --main-color:#1A73E8;
+    --second-color :#FFD333;
+    --animate-duration:4s;
+}
+/* end variable */
+
+/* start global rule */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: var(--main-color);
+}
+/* end global rule */
+/* start todo */
+ .container{
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.container .todo{
+    position: relative;
+}
+.container .todo .update-overlay{
+    position: absolute;
+    background-color: rgba(26 115 232 / 0.5);
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.container .todo .update-overlay .update{
+    background-color: var(--main-color);
+    padding: 50px;
+    width: 60%;
+    border: 2px solid #fff;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+.container .todo .update-overlay .update .box{
+    margin-bottom: 20px;
+}
+.container .todo .update-overlay .update .alert{
+    width: 50%;
+    padding: 10px 10px 2px;
+    margin: 5px auto 0;
+    white-space: nowrap;
+    border: none;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+.container .todo .update-overlay .update .box input{
+    padding: 10px 15px;
+    width: 60%;
+    margin-left: 20PX;
+    outline: none;
+    border: 2px solid var(--second-color);
+}
+.container .todo .update-overlay .update .box input[name ="name"]{
+    margin-left: 37px;
+}
+.container .todo .update-overlay .update .box input[name ="prio"]{
+    margin-left: 29px;
+}
+.container .todo .update-overlay .update .button{
+    display: flex;
+    justify-content: center;
+}
+.container .todo .input{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 50px;
+}
+.container .todo .input .task-input {
+    width: 40%;
+}
+.container .todo .input .task-input input{
+    width: 100%;
+    border: 2px solid var(--main-color);
+    padding: 10px 20px;
+    outline: none;
+    border-radius: 20px;
+    transition: var(--main-transtion);
+    -webkit-transition: var(--main-transtion);
+    -moz-transition: var(--main-transtion);
+    -ms-transition: var(--main-transtion);
+    -o-transition: var(--main-transtion);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+.container .todo .input input:focus{
+    border-color: var(--second-color);
+}
+.container .todo .input input::placeholder{
+    font-weight: normal;
+    font-size: 14px;
+    transition: var(--main-transtion);
+    -webkit-transition: var(--main-transtion);
+    -moz-transition: var(--main-transtion);
+    -ms-transition: var(--main-transtion);
+    -o-transition: var(--main-transtion);
+}
+.container .todo .input input:focus::placeholder{
+    opacity: 0;
+}
+.container .todo .input .alert{
+    padding: 10px 10px 2px;
+    margin: 5px 0 0;
+    white-space: nowrap;
+    border: none;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+.container .todo .filter{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.container .todo .filter span{
+    margin-right: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.container .todo .filter .form-select{
+    width: fit-content;
+    cursor: pointer;
+}
+.table img{
+    width: 30px ;
+    height: 30px;
+    margin-right: 10px;
+}
+/* end todo */

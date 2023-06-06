@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/normalize.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style/style.css">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="todo">
+          <div class="update-overlay">
+            <div class="update">
+              <div class="box">
+                <label for="name">Task Name :</label>
+                <input type="text" name="name" id="name">
+              </div>
+              <div class="box">
+                <label for="prio">Task Priority :</label>
+                <input type="text" name="prio" id="prio">
+                <div  class="alert alert-primary d-none" role="alert"> 
+                  <p>Task priority should be from 1 to 3</p> 
+                </div>
+              </div>
+              <div class="box">
+                <label for="owner">Owner Name :</label>
+                <input type="text" name="owner" id="owner">
+              </div>
+              <div class="button">
+                <button class="submit btn btn-success">Edit</button>
+                <button class="close btn btn-danger ms-2">close</button>
+              </div>
+            </div>
+          </div>
+            <div class="input">
+                    <div class="task-input">
+                      <input class="task-name" type="text" name="taskName" placeholder="Write Task Name">
+                      <div id="taskNameAlert" class="alert alert-primary text-center d-none " role="alert"> 
+                        <p>write task name !</p> 
+                      </div>
+                    </div>
+                    <div class="task-input">
+                      <input class="taskPriority" type="number" name="taskPriority" placeholder="Write Priority">
+                      <div  class="alert priority alert-primary d-none" role="alert"> 
+                        <p>Task priority should be from 1 to 3</p> 
+                      </div>
+                    </div>
+                    <div class="task-input">
+                      <input class="taskTimer" type="date" name="taskTimer" placeholder="Write Priority">
+                      <div  class="alert date alert-primary d-none " role="alert"> 
+                        <p>Invalid Date</p> 
+                      </div>
+                    </div>
+                    <div class="mt-1 ms-1"><button  class="btn add btn-success">Add</button></div>
+            </div>
+            <div class="filter">
+              <div>
+                <button class="btn btn-danger delete-all">Delete All</button>
+              </div>
+                <div class="d-flex">
+                  <span>Filter By Priority :</span>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected="selected" value="all">All</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </select>
+                </div>
+            </div>
+            <div class="todo-table">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Task Name</th>
+                        <th scope="col">Task Owner</th>
+                        <th scope="col">Dead Line</th>
+                        <th scope="col">Priority</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">select</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-body">
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module" src="dist/main.js"></script>
+</body>
+</html>
+
+<input type="text" checked>
