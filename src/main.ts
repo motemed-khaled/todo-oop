@@ -23,8 +23,8 @@ let allCheckBox = document.querySelectorAll(".deletecheck");
 
 
 class Task{
-   
-    constructor(private taskName: string, private priority: string,private deadLine: string , private status:boolean =true) {
+
+    constructor(private taskName: string, private priority: string,private deadLine: string , private status:string ="Pending") {
         this.setTaskName(taskName) 
         this.setPriority(priority);
         this.setDeadLine(deadLine);
@@ -56,10 +56,10 @@ class Task{
     }
 
     // get and set deadLine
-    getStatus(): boolean {
+    getStatus(): string {
         return this.status;
     }
-    setStatus(value: boolean):void {
+    setStatus(value: string):void {
         this.status = value;
     }
 
@@ -149,9 +149,9 @@ class TaskOperation{
             <td><img src="image/1.jpg" class="img-fluid rounded-circle"><span>${task.owner}</span></td>
             <td class="timerDown"></td>
             <td>${task.priority}</td>
-            <td>${task.stat ? task.stat ="pending" : task.stat ="Done"}</td>
+            <td>${task.stat}</td>
             <td><input type="checkbox" name="check" class="deletecheck"></td>
-            <td><button class="btn edit btn-primary" fdprocessedid="z4wbk9">Edit</button><button class="btn delete ms-3 btn-danger" fdprocessedid="3pmr1v">Delete</button></td></tr>`
+            <td><button class="btn edit btn-primary" fdprocessedid="z4wbk9">Edit</button><button class="btn delete ms-3 btn-danger" fdprocessedid="3pmr1v">Delete</button><button class="btn done ms-3 btn-success" fdprocessedid="3pmr1v">Done</button></td></tr>`
         });
         let allDateTd = document.querySelectorAll(".timerDown");
         for (let i = 0; i < tasks.length; i++) {
@@ -212,7 +212,7 @@ class TaskOperation{
         }, 1000);
     }
 
-    static gettaskId = (e: Event) => {
+    static gettaskIdAndTriggerAction = (e: Event) => {
         let row =  (e.target as HTMLElement);
         if (row.classList.contains("edit")) {
             let taskId = row.parentNode?.parentElement?.firstElementChild?.innerHTML;
@@ -221,8 +221,10 @@ class TaskOperation{
             let taskId = row.parentNode?.parentElement?.firstElementChild?.innerHTML;
             this.deleteTask(taskId);
         } else if (row.classList.contains("delete-all")) {
-            console.log(true)
-            this.deleteCheck();
+            this.getAllSelectedBox();
+        } else if (row.classList.contains("done")) {
+            let taskId = row.parentNode?.parentElement?.firstElementChild?.innerHTML;
+            this.changeStatus(taskId , row as HTMLElement);
         }
     }
     
@@ -266,7 +268,7 @@ class TaskOperation{
 
     }
 
-    static deleteCheck = () => {
+    static getAllSelectedBox = () => {
         let allCheckBox = document.querySelectorAll('input[type="checkbox"]:checked');
         let allTasks= JSON.parse(window.localStorage.getItem("tasks") || '[]');
         let allId:number[]= [];
@@ -277,38 +279,51 @@ class TaskOperation{
         this.deleteMultiRow(allId, allTasks);
     }
 
-    static deleteMultiRow = (value:number[] , allTasks) => {
-        for(let i=0 ; i < value.length ; i++)
-    {
-        for(let j = 0 ; j < allTasks.length; j++)
-        {
-            if(value[i] == allTasks[j].id)
-            {
-                allTasks.splice(j,1);
-                break;
+    static deleteMultiRow = (value: number[], allTasks) => {
+        let check = confirm("are you sure to delete this items");
+        if (check) {
+            for (let i = 0; i < value.length; i++) {
+                for (let j = 0; j < allTasks.length; j++) {
+                    if (value[i] == allTasks[j].id) {
+                        allTasks.splice(j, 1);
+                        break;
+                    }
+                }
             }
+            console.log(allTasks);
+            this.updateTaskId(allTasks);
         }
-        }
-        console.log(allTasks);
+    }
+
+    static changeStatus = (taskId , row:HTMLElement) => {
+        let allTasks = JSON.parse(window.localStorage.getItem("tasks") || '[]');
+        allTasks.forEach(task => {
+            if (task.id == taskId) {
+                console.log(true)
+                task.stat = "Done"
+            }
+        });
+
         this.updateTaskId(allTasks);
     }
 
 
 }
+
 // show all tasks from local storage
 let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
 TaskOperation.sortTasks(tasks);
 
 // add task
 addButton.addEventListener("click", () => {
-    const task = new Task(nameInput.value, priorityInput.value, dateInput.value, true);
+    const task = new Task(nameInput.value, priorityInput.value, dateInput.value, "pending");
     console.log(TaskOperation.addTask(task));
 });
 
-// update task
 
+// update task
 document.addEventListener("click", e => {
-    TaskOperation.gettaskId(e);
+    TaskOperation.gettaskIdAndTriggerAction(e);
 })
 
 

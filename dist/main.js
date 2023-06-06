@@ -19,7 +19,7 @@ let select = document.querySelector(".todo .filter .form-select");
 let deleteAllButon = document.querySelector(".todo .filter .delete-all");
 let allCheckBox = document.querySelectorAll(".deletecheck");
 class Task {
-    constructor(taskName, priority, deadLine, status = true) {
+    constructor(taskName, priority, deadLine, status = "Pending") {
         this.taskName = taskName;
         this.priority = priority;
         this.deadLine = deadLine;
@@ -129,9 +129,9 @@ TaskOperation.renderTable = (tasks) => {
             <td><img src="image/1.jpg" class="img-fluid rounded-circle"><span>${task.owner}</span></td>
             <td class="timerDown"></td>
             <td>${task.priority}</td>
-            <td>${task.stat ? task.stat = "pending" : task.stat = "Done"}</td>
+            <td>${task.stat}</td>
             <td><input type="checkbox" name="check" class="deletecheck"></td>
-            <td><button class="btn edit btn-primary" fdprocessedid="z4wbk9">Edit</button><button class="btn delete ms-3 btn-danger" fdprocessedid="3pmr1v">Delete</button></td></tr>`;
+            <td><button class="btn edit btn-primary" fdprocessedid="z4wbk9">Edit</button><button class="btn delete ms-3 btn-danger" fdprocessedid="3pmr1v">Delete</button><button class="btn done ms-3 btn-success" fdprocessedid="3pmr1v">Done</button></td></tr>`;
     });
     let allDateTd = document.querySelectorAll(".timerDown");
     for (let i = 0; i < tasks.length; i++) {
@@ -171,8 +171,8 @@ TaskOperation.timer = (endDate, tr) => {
         }
     }, 1000);
 };
-TaskOperation.gettaskId = (e) => {
-    var _b, _c, _d, _e, _f, _g;
+TaskOperation.gettaskIdAndTriggerAction = (e) => {
+    var _b, _c, _d, _e, _f, _g, _h, _j, _k;
     let row = e.target;
     if (row.classList.contains("edit")) {
         let taskId = (_d = (_c = (_b = row.parentNode) === null || _b === void 0 ? void 0 : _b.parentElement) === null || _c === void 0 ? void 0 : _c.firstElementChild) === null || _d === void 0 ? void 0 : _d.innerHTML;
@@ -183,8 +183,11 @@ TaskOperation.gettaskId = (e) => {
         _a.deleteTask(taskId);
     }
     else if (row.classList.contains("delete-all")) {
-        console.log(true);
-        _a.deleteCheck();
+        _a.getAllSelectedBox();
+    }
+    else if (row.classList.contains("done")) {
+        let taskId = (_k = (_j = (_h = row.parentNode) === null || _h === void 0 ? void 0 : _h.parentElement) === null || _j === void 0 ? void 0 : _j.firstElementChild) === null || _k === void 0 ? void 0 : _k.innerHTML;
+        _a.changeStatus(taskId, row);
     }
 };
 TaskOperation.deleteTask = (taskId) => {
@@ -221,7 +224,7 @@ TaskOperation.updateTask = (taskId) => {
         overLay.style.display = "none";
     });
 };
-TaskOperation.deleteCheck = () => {
+TaskOperation.getAllSelectedBox = () => {
     let allCheckBox = document.querySelectorAll('input[type="checkbox"]:checked');
     let allTasks = JSON.parse(window.localStorage.getItem("tasks") || '[]');
     let allId = [];
@@ -233,23 +236,36 @@ TaskOperation.deleteCheck = () => {
     _a.deleteMultiRow(allId, allTasks);
 };
 TaskOperation.deleteMultiRow = (value, allTasks) => {
-    for (let i = 0; i < value.length; i++) {
-        for (let j = 0; j < allTasks.length; j++) {
-            if (value[i] == allTasks[j].id) {
-                allTasks.splice(j, 1);
-                break;
+    let check = confirm("are you sure to delete this items");
+    if (check) {
+        for (let i = 0; i < value.length; i++) {
+            for (let j = 0; j < allTasks.length; j++) {
+                if (value[i] == allTasks[j].id) {
+                    allTasks.splice(j, 1);
+                    break;
+                }
             }
         }
+        console.log(allTasks);
+        _a.updateTaskId(allTasks);
     }
-    console.log(allTasks);
+};
+TaskOperation.changeStatus = (taskId, row) => {
+    let allTasks = JSON.parse(window.localStorage.getItem("tasks") || '[]');
+    allTasks.forEach(task => {
+        if (task.id == taskId) {
+            console.log(true);
+            task.stat = "Done";
+        }
+    });
     _a.updateTaskId(allTasks);
 };
 let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
 TaskOperation.sortTasks(tasks);
 addButton.addEventListener("click", () => {
-    const task = new Task(nameInput.value, priorityInput.value, dateInput.value, true);
+    const task = new Task(nameInput.value, priorityInput.value, dateInput.value, "pending");
     console.log(TaskOperation.addTask(task));
 });
 document.addEventListener("click", e => {
-    TaskOperation.gettaskId(e);
+    TaskOperation.gettaskIdAndTriggerAction(e);
 });
