@@ -273,20 +273,17 @@ class TaskOperation{
         let allId:any[]= [];
         allCheckBox.forEach(check => {
             let taskId = Number(check.parentNode?.parentElement?.firstElementChild?.innerHTML);
-            console.log(typeof taskId)
-            
             allId.push(taskId);
-            console.log( allId)
         })
         for (let i = 0; i < allTasks.length; i++) {
             if (allTasks[i].id == allId[i]) {
-                
                 console.log(true)
             } else {
                 newTasks.push(allTasks[i])
             }
         }
         console.log(newTasks)
+        this.updateTaskId(newTasks);
     }
 
 

@@ -229,9 +229,7 @@ TaskOperation.deleteCheck = () => {
     allCheckBox.forEach(check => {
         var _b, _c, _d;
         let taskId = Number((_d = (_c = (_b = check.parentNode) === null || _b === void 0 ? void 0 : _b.parentElement) === null || _c === void 0 ? void 0 : _c.firstElementChild) === null || _d === void 0 ? void 0 : _d.innerHTML);
-        console.log(typeof taskId);
         allId.push(taskId);
-        console.log(allId);
     });
     for (let i = 0; i < allTasks.length; i++) {
         if (allTasks[i].id == allId[i]) {
@@ -242,6 +240,7 @@ TaskOperation.deleteCheck = () => {
         }
     }
     console.log(newTasks);
+    _a.updateTaskId(newTasks);
 };
 let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
 TaskOperation.sortTasks(tasks);
